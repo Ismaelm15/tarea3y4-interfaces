@@ -25,7 +25,7 @@ public class Saludo extends JPanel implements ActionListener {
     private JTextArea texto;
     private JLabel texto3;
     private Random rnd = new Random();
-    private int aleatorio;
+
 
     public Saludo() {
         initComponents();
@@ -58,8 +58,8 @@ public class Saludo extends JPanel implements ActionListener {
         generarAleatorio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                aleatorio = rnd.nextInt(10) + 1;
-                texto3.setText(Integer.toString(aleatorio));
+                
+                texto3.setText(Integer.toString(rnd.nextInt(11)));
             }
         });
         
@@ -79,12 +79,12 @@ public class Saludo extends JPanel implements ActionListener {
 
             @Override
             public void mouseEntered(MouseEvent me) {
-             texto3.setBackground(Color.CYAN);
+             generarAleatorio.setBackground(Color.CYAN);
             }
 
             @Override
             public void mouseExited(MouseEvent me) {
-             texto3.setBackground(Color.WHITE);
+             generarAleatorio.setBackground(Color.WHITE);
             }
         });
         
