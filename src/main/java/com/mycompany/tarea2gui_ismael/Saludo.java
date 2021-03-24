@@ -14,6 +14,7 @@ import java.awt.FlowLayout;
 import java.awt.event.*;
 import java.util.Random;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -21,7 +22,8 @@ import javax.swing.JTextArea;
 public class Saludo extends JPanel implements ActionListener {
 
     private JButton botonSaludar, botonDespedir, generarAleatorio;
-    private JTextArea texto, texto2;
+    private JTextArea texto;
+    private JLabel texto3;
     private Random rnd = new Random();
     private int aleatorio;
 
@@ -36,8 +38,8 @@ public class Saludo extends JPanel implements ActionListener {
         generarAleatorio = new JButton("Generar Aleatorio");
         texto = new JTextArea(1, 25);
         texto.setBackground(Color.ORANGE);
-        texto2 = new JTextArea(1, 25);
-        texto2.setText("Numero");
+        texto3 = new JLabel("Numero");
+        
         this.setLayout(new FlowLayout());
 
         this.add(botonSaludar);
@@ -45,7 +47,7 @@ public class Saludo extends JPanel implements ActionListener {
         this.add(botonDespedir);
         this.add(texto);
         this.add(generarAleatorio);
-        this.add(texto2);
+        this.add(texto3);
 
 // Se le indica al objeto boton que escuche eventos tipo click
 // y se pasa como argumento una referencia de tipo ActionListener
@@ -57,7 +59,7 @@ public class Saludo extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 aleatorio = rnd.nextInt(10) + 1;
-                texto2.setText(Integer.toString(aleatorio));
+                texto3.setText(Integer.toString(aleatorio));
             }
         });
         
@@ -77,12 +79,12 @@ public class Saludo extends JPanel implements ActionListener {
 
             @Override
             public void mouseEntered(MouseEvent me) {
-             texto2.setBackground(Color.CYAN);
+             texto3.setBackground(Color.CYAN);
             }
 
             @Override
             public void mouseExited(MouseEvent me) {
-             texto2.setBackground(Color.WHITE);
+             texto3.setBackground(Color.WHITE);
             }
         });
         
