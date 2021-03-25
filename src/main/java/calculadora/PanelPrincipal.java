@@ -13,6 +13,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -22,8 +23,9 @@ public class PanelPrincipal extends JPanel implements ActionListener {
     // Atributos de la clase (privados)
     private PanelBotones botonera;
     private JTextArea areaTexto;
-    private int tipoOperacion, resultado = 0, operando1;
+    private int tipoOperacion;
     private String buffer = "";
+    private double resultado=0;
 
     // Constructor
     public PanelPrincipal() {
@@ -58,22 +60,36 @@ public class PanelPrincipal extends JPanel implements ActionListener {
         // Si es un botón
         if (o instanceof JButton) {
 
-            if (((JButton) o).getText().equals("+")) {
-                botonera.grupoBotones[11].setEnabled(false);
-                botonera.grupoBotones[12].setEnabled(false);
-                botonera.grupoBotones[13].setEnabled(false);
-            }else if (((JButton) o).getText().equals("-")) {
-                botonera.grupoBotones[10].setEnabled(false);
-                botonera.grupoBotones[12].setEnabled(false);
-                botonera.grupoBotones[13].setEnabled(false);
-            }else if (((JButton) o).getText().equals("*")) {
-                botonera.grupoBotones[10].setEnabled(false);
-                botonera.grupoBotones[11].setEnabled(false);
-                botonera.grupoBotones[13].setEnabled(false);
-            }else if (((JButton) o).getText().equals("/")) {
-                botonera.grupoBotones[10].setEnabled(false);
-                botonera.grupoBotones[11].setEnabled(false);
-                botonera.grupoBotones[12].setEnabled(false);
+            switch (((JButton) o).getText()) {
+                case "+":
+                    botonera.grupoBotones[11].setEnabled(false);
+                    botonera.grupoBotones[12].setEnabled(false);
+                    botonera.grupoBotones[13].setEnabled(false);
+                    break;
+                case "-":
+                    botonera.grupoBotones[10].setEnabled(false);
+                    botonera.grupoBotones[12].setEnabled(false);
+                    botonera.grupoBotones[13].setEnabled(false);
+                    break;
+                case "*":
+                    botonera.grupoBotones[10].setEnabled(false);
+                    botonera.grupoBotones[11].setEnabled(false);
+                    botonera.grupoBotones[13].setEnabled(false);
+                    break;
+                case "/":
+                    botonera.grupoBotones[10].setEnabled(false);
+                    botonera.grupoBotones[11].setEnabled(false);
+                    botonera.grupoBotones[12].setEnabled(false);
+                    break;
+                default:
+                    break;
+            }
+            if (buffer.startsWith("+") || buffer.startsWith("-") || buffer.startsWith("*") || buffer.startsWith("/")) {
+                buffer = "";
+                botonera.grupoBotones[10].setEnabled(true);
+                botonera.grupoBotones[11].setEnabled(true);
+                botonera.grupoBotones[12].setEnabled(true);
+                botonera.grupoBotones[13].setEnabled(true);
             }
 
             if (!((JButton) o).getText().equals("=")) {
@@ -92,42 +108,43 @@ public class PanelPrincipal extends JPanel implements ActionListener {
                 botonera.grupoBotones[12].setEnabled(true);
                 botonera.grupoBotones[13].setEnabled(true);
                 if (buffer.contains("+")) {
+                    
                     buffer = buffer.replace('+', 's');
                     String[] trozos = buffer.split("s");
                     for (int i = 0; i < trozos.length; i++) {
-                        resultado += Integer.parseInt(trozos[i]);
+                        resultado += Double.parseDouble(trozos[i]);
 
                     }
-                    areaTexto.setText(Integer.toString(resultado));
-                    buffer = Integer.toString(resultado);
+                    areaTexto.setText(Integer.toString((int) resultado));
+                    buffer = Integer.toString((int) resultado);
 
                 } else if (buffer.contains("-")) {
                     buffer = buffer.replace('-', 'r');
                     String[] trozos = buffer.split("r");
                     resultado = Integer.parseInt(trozos[0]);
                     for (int i = 1; i < trozos.length; i++) {
-                        resultado -= Integer.parseInt(trozos[i]);
+                        resultado -= Double.parseDouble(trozos[i]);
                     }
-                    areaTexto.setText(Integer.toString(resultado));
-                    buffer = Integer.toString(resultado);
+                    areaTexto.setText(Integer.toString((int) resultado));
+                    buffer = Integer.toString((int) resultado);
                 } else if (buffer.contains("*")) {
                     resultado = 1;
                     buffer = buffer.replace('*', 'm');
                     String[] trozos = buffer.split("m");
                     for (int i = 0; i < trozos.length; i++) {
-                        resultado *= Integer.parseInt(trozos[i]);
+                        resultado *= Double.parseDouble(trozos[i]);
                     }
-                    areaTexto.setText(Integer.toString(resultado));
-                    buffer = Integer.toString(resultado);
+                    areaTexto.setText(Integer.toString((int) resultado));
+                    buffer = Double.toString(resultado);
                 } else if (buffer.contains("/")) {
                     buffer = buffer.replace(('/'), 'd');
                     String[] trozos = buffer.split("d");
-                    resultado = Integer.parseInt(trozos[0]);
+                    resultado = Double.parseDouble(trozos[0]);
                     for (int i = 1; i < trozos.length; i++) {
-                        resultado /= Integer.parseInt(trozos[i]);
+                        resultado /= Double.parseDouble(trozos[i]);
                     }
-                    areaTexto.setText(Integer.toString(resultado));
-                    buffer = Integer.toString(resultado);
+                    areaTexto.setText(Double.toString(resultado));
+                    buffer = Double.toString(resultado);
                 }
 
             }
