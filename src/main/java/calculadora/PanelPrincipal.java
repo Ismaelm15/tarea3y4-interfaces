@@ -25,7 +25,7 @@ public class PanelPrincipal extends JPanel implements ActionListener {
     private JTextArea areaTexto;
     private int tipoOperacion;
     private String buffer = "";
-    private double resultado=0;
+    private double resultado = 0;
 
     // Constructor
     public PanelPrincipal() {
@@ -60,97 +60,110 @@ public class PanelPrincipal extends JPanel implements ActionListener {
         // Si es un botón
         if (o instanceof JButton) {
 
-            switch (((JButton) o).getText()) {
-                case "+":
-                    botonera.grupoBotones[11].setEnabled(false);
-                    botonera.grupoBotones[12].setEnabled(false);
-                    botonera.grupoBotones[13].setEnabled(false);
-                    break;
-                case "-":
-                    botonera.grupoBotones[10].setEnabled(false);
-                    botonera.grupoBotones[12].setEnabled(false);
-                    botonera.grupoBotones[13].setEnabled(false);
-                    break;
-                case "*":
-                    botonera.grupoBotones[10].setEnabled(false);
-                    botonera.grupoBotones[11].setEnabled(false);
-                    botonera.grupoBotones[13].setEnabled(false);
-                    break;
-                case "/":
-                    botonera.grupoBotones[10].setEnabled(false);
-                    botonera.grupoBotones[11].setEnabled(false);
-                    botonera.grupoBotones[12].setEnabled(false);
-                    break;
-                default:
-                    break;
-            }
-            if (buffer.startsWith("+") || buffer.startsWith("-") || buffer.startsWith("*") || buffer.startsWith("/")) {
-                buffer = "";
-                botonera.grupoBotones[10].setEnabled(true);
-                botonera.grupoBotones[11].setEnabled(true);
-                botonera.grupoBotones[12].setEnabled(true);
-                botonera.grupoBotones[13].setEnabled(true);
-            }
-
-            if (!((JButton) o).getText().equals("=")) {
-                if (((JButton) o).getText().equals("C")) {
-                    resultado = 0;
-                    buffer = "";
-                    areaTexto.setText(buffer);
-                } else {
-                    System.out.println(((JButton) o).getText());
-                    buffer += ((JButton) o).getText();
-                    areaTexto.setText(buffer);
-                }
-            } else {
-                botonera.grupoBotones[10].setEnabled(true);
-                botonera.grupoBotones[11].setEnabled(true);
-                botonera.grupoBotones[12].setEnabled(true);
-                botonera.grupoBotones[13].setEnabled(true);
-                if (buffer.contains("+")) {
-                    
-                    buffer = buffer.replace('+', 's');
-                    String[] trozos = buffer.split("s");
-                    for (int i = 0; i < trozos.length; i++) {
-                        resultado += Double.parseDouble(trozos[i]);
-
-                    }
-                    areaTexto.setText(Integer.toString((int) resultado));
-                    buffer = Integer.toString((int) resultado);
-
-                } else if (buffer.contains("-")) {
-                    buffer = buffer.replace('-', 'r');
-                    String[] trozos = buffer.split("r");
-                    resultado = Integer.parseInt(trozos[0]);
-                    for (int i = 1; i < trozos.length; i++) {
-                        resultado -= Double.parseDouble(trozos[i]);
-                    }
-                    areaTexto.setText(Integer.toString((int) resultado));
-                    buffer = Integer.toString((int) resultado);
-                } else if (buffer.contains("*")) {
-                    resultado = 1;
-                    buffer = buffer.replace('*', 'm');
-                    String[] trozos = buffer.split("m");
-                    for (int i = 0; i < trozos.length; i++) {
-                        resultado *= Double.parseDouble(trozos[i]);
-                    }
-                    areaTexto.setText(Integer.toString((int) resultado));
-                    buffer = Double.toString(resultado);
-                } else if (buffer.contains("/")) {
-                    buffer = buffer.replace(('/'), 'd');
-                    String[] trozos = buffer.split("d");
-                    resultado = Double.parseDouble(trozos[0]);
-                    for (int i = 1; i < trozos.length; i++) {
-                        resultado /= Double.parseDouble(trozos[i]);
-                    }
-                    areaTexto.setText(Double.toString(resultado));
-                    buffer = Double.toString(resultado);
-                }
-
-            }
+            bloqueoBotones((JButton) o);
+            operaciones((JButton) o);
 
         }
 
+    }
+
+    public void bloqueoBotones(JButton o) {//bloquea los botones
+        switch (o.getText()) {
+            case "+":
+                botonera.grupoBotones[11].setEnabled(false);
+                botonera.grupoBotones[12].setEnabled(false);
+                botonera.grupoBotones[13].setEnabled(false);
+                break;
+            case "-":
+                botonera.grupoBotones[10].setEnabled(false);
+                botonera.grupoBotones[12].setEnabled(false);
+                botonera.grupoBotones[13].setEnabled(false);
+                break;
+            case "*":
+                botonera.grupoBotones[10].setEnabled(false);
+                botonera.grupoBotones[11].setEnabled(false);
+                botonera.grupoBotones[13].setEnabled(false);
+                break;
+            case "/":
+                botonera.grupoBotones[10].setEnabled(false);
+                botonera.grupoBotones[11].setEnabled(false);
+                botonera.grupoBotones[12].setEnabled(false);
+                break;
+            default:
+                break;
+        }
+
+        if (buffer.startsWith("+") || buffer.startsWith("-") || buffer.startsWith("*") || buffer.startsWith("/")) {
+            buffer = "";
+            botonera.grupoBotones[10].setEnabled(true);
+            botonera.grupoBotones[11].setEnabled(true);
+            botonera.grupoBotones[12].setEnabled(true);
+            botonera.grupoBotones[13].setEnabled(true);
+            areaTexto.setText("");
+        }
+    }
+
+    public void operaciones(JButton o) {
+        if (!((JButton) o).getText().equals("=")) {
+            if (((JButton) o).getText().equals("C")) {
+                botonera.grupoBotones[10].setEnabled(true);
+                botonera.grupoBotones[11].setEnabled(true);
+                botonera.grupoBotones[12].setEnabled(true);
+                botonera.grupoBotones[13].setEnabled(true);
+                resultado = 0;
+                buffer = "";
+                areaTexto.setText(buffer);
+            } else {
+                System.out.println(((JButton) o).getText());
+                buffer += ((JButton) o).getText();
+                areaTexto.setText(buffer);
+            }
+        } else {
+            botonera.grupoBotones[10].setEnabled(true);
+            botonera.grupoBotones[11].setEnabled(true);
+            botonera.grupoBotones[12].setEnabled(true);
+            botonera.grupoBotones[13].setEnabled(true);
+            if (buffer.contains("+")) {
+
+                buffer = buffer.replace('+', 's');
+                String[] trozos = buffer.split("s");
+                for (int i = 0; i < trozos.length; i++) {
+                    resultado += Double.parseDouble(trozos[i]);
+
+                }
+                areaTexto.setText(Integer.toString((int) resultado));
+                buffer = Integer.toString((int) resultado);
+
+            } else if (buffer.contains("-")) {
+                buffer = buffer.replace('-', 'r');
+                String[] trozos = buffer.split("r");
+                resultado = Integer.parseInt(trozos[0]);
+                for (int i = 1; i < trozos.length; i++) {
+                    resultado -= Double.parseDouble(trozos[i]);
+                }
+                areaTexto.setText(Integer.toString((int) resultado));
+                buffer = Integer.toString((int) resultado);
+            } else if (buffer.contains("*")) {
+                resultado = 1;
+                buffer = buffer.replace('*', 'm');
+                String[] trozos = buffer.split("m");
+                for (int i = 0; i < trozos.length; i++) {
+                    resultado *= Double.parseDouble(trozos[i]);
+                }
+                areaTexto.setText(Integer.toString((int) resultado));
+                buffer = Double.toString(resultado);
+            } else if (buffer.contains("/")) {
+                buffer = buffer.replace(('/'), 'd');
+                String[] trozos = buffer.split("d");
+                resultado = Double.parseDouble(trozos[0]);
+                for (int i = 1; i < trozos.length; i++) {
+                    resultado /= Double.parseDouble(trozos[i]);
+                }
+                areaTexto.setText(Double.toString(resultado));
+                buffer = Double.toString(resultado);
+            }
+
+        }
     }
 
     // RESTO DEL CÓDIGO DE LA LÓGICA DE LA CALCULADORA
